@@ -30,6 +30,7 @@ app.get('/', (req, res) => {
 
 // CONTROLLERS 
 const bandsController = require('./controllers/bands_controller')
+// this line specifies all request coming from the controller are from the /bands route
 app.use('/bands', bandsController)
 
 

@@ -1,3 +1,13 @@
+
+// sequelize helper methods
+// 1. findAll()
+// 2. findOne()
+// 3. create()
+// 4. update()
+// 5. destroy()
+
+
+
 // DEPENDENCIES
 // this is an express server we are using to route
 const bands = require("express").Router();
@@ -7,10 +17,12 @@ const db = require("../models");
 const { Band } = db;
 
 
-// FIND ALL BANDS
+// 1. FIND ALL BANDS
+// this starts with bands.get because thats the server we are making a request on im not sure about this part.
 bands.get('/', async (req, res) => {
     try {
         // saving the found things to a variable.
+        // notice we use Band.findAll() here because we destructed the specific table we wanted above.
         const foundBands = await Band.findAll()
         // including these res.status codes is best practice.
         res.status(200).json(foundBands)
@@ -21,7 +33,7 @@ bands.get('/', async (req, res) => {
     }
 })
 
-// FIND A SPECIFIC BAND
+// 2. FIND A SPECIFIC BAND
 bands.get('/:id', async (req, res) => {
     try {
         const foundBand = await Band.findOne({
@@ -35,7 +47,7 @@ bands.get('/:id', async (req, res) => {
     }
 })
 
-// CREATE A BAND
+// 3. CREATE A BAND
 bands.post('/', async (req, res) => {
     try {
         const newBand = await Band.create(req.body)
@@ -49,7 +61,7 @@ bands.post('/', async (req, res) => {
     }
 })
 
-// UPDATE A BAND
+// 4. UPDATE A BAND
 bands.put('/:id', async (req, res) => {
     try {
         const updatedBands = await Band.update(req.body, {
@@ -65,7 +77,7 @@ bands.put('/:id', async (req, res) => {
     }
 })
 
-// DELETE A BAND
+// 5. DELETE A BAND
 bands.delete('/:id', async (req, res) => {
     try {
         const deletedBands = await Band.destroy({
