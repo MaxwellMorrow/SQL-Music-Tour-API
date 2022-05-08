@@ -15,6 +15,7 @@ const bands = require("express").Router();
 const db = require("../models");
 // destructuring bands here to keep us from having to specify which db each time
 const { Band } = db;
+const {Op} = require("sequelize")
 
 
 // 1. FIND ALL BANDS
@@ -23,7 +24,19 @@ bands.get('/', async (req, res) => {
     try {
         // saving the found things to a variable.
         // notice we use Band.findAll() here because we destructed the specific table we wanted above.
-        const foundBands = await Band.findAll()
+        const foundBands = await Band.findAll(
+            // this syntax is confusing af definitely dont try and do this without documentation. 
+            {
+                // this is ordering our data fairly straightforward
+            order: [["available_start_time", "ASC"]],
+            where: {
+                // this is using query params to get specific bands using a ternary
+                // the ternary uses querry params if there are some and using an empty string iff query params are null.
+                name: {[Op.like]: `%${req.query.name ? req.query.name : ""}%`}
+            }
+        })
+
+
         // including these res.status codes is best practice.
         res.status(200).json(foundBands)
     } 
