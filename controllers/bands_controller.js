@@ -31,7 +31,7 @@ bands.get('/', async (req, res) => {
             order: [["available_start_time", "ASC"]],
             where: {
                 // this is using query params to get specific bands using a ternary
-                // the ternary uses querry params if there are some and using an empty string iff query params are null.
+                // the ternary uses query params if there are some and using an empty string iff query params are null.
                 name: {[Op.like]: `%${req.query.name ? req.query.name : ""}%`}
             }
         })
@@ -50,7 +50,7 @@ bands.get('/', async (req, res) => {
 bands.get('/:id', async (req, res) => {
     try {
         const foundBand = await Band.findOne({
-            // this is where we blend sequelize with what we already know about using req.params.id
+           
             where: { band_id: req.params.id }
         })
         res.status(200).json(foundBand)
